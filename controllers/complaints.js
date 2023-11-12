@@ -43,7 +43,7 @@ module.exports.add = async (req, res) => {
 module.exports.update = async (req, res, next) => {
     try {
         const complaintId = req.params.id;
-        const { resource, description } = req.body;
+        const { resource, description, isResolved } = req.body;
 
         const oldComplaint = await Complaint.findById(complaintId);
         if (!oldComplaint) {
@@ -52,6 +52,9 @@ module.exports.update = async (req, res, next) => {
 
         oldComplaint.resource = resource || oldComplaint.resource;
         oldComplaint.description = description || oldComplaint.description;
+        if (req.session.user.admin) {
+            oldComplaint.isResolved = isResolved || oldComplaint.isResolved;
+        }
 
         const newComplaint = await oldComplaint.save();
 

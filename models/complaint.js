@@ -11,7 +11,8 @@ const complaintSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    isResolved: { type: Boolean, required: true, default: false },
 });
 
 const Complaint = mongoose.model('Complaint', complaintSchema);
